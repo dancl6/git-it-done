@@ -55,25 +55,31 @@ var getRepoIssues = function(repo) {
     // request was successful
     if (response.ok) {
       response.json().then(function(data) {
-        // pass response data to dom function
         displayIssues(data);
+    
+        // check if api has paginated issues
+        if (response.headers.get("Link")) {
+          // console.log("repo has more than 30 issues");
+          displayWarning(repo);
+        }
       });
     }
     else {
       alert("There was a problem with your request!");
     }
+    // if (response.ok) {
+    //   response.json().then(function(data) {
+    //     displayIssues(data);
+    
+    //     // check if api has paginated issues
+    //     if (response.headers.get("Link")) {
+    //       // console.log("repo has more than 30 issues");
+    //       displayWarning(repo);
+    //     }
+    //   });
+    // }
   });
-  if (response.ok) {
-    response.json().then(function(data) {
-      displayIssues(data);
-  
-      // check if api has paginated issues
-      if (response.headers.get("Link")) {
-        // console.log("repo has more than 30 issues");
-        displayWarning(repo);
-      }
-    });
-  }
+
 };
 
 
